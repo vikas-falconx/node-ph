@@ -5,6 +5,15 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: ["14.x","16.x", "18.x"]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+      - run: npm install
+      - run: npm build --if-present
